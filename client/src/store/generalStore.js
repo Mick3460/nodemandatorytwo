@@ -68,6 +68,7 @@ export async function aaaaaaaaaaaaaaaaafetchOneUser(data) {
 */
 
 export const users = writable("Update this")
+export const sessionKey = writable("Update this")
 export const currentUser = writable(null)
 export const logInAttempts = writable(0);
 

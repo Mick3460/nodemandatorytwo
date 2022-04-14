@@ -1,17 +1,17 @@
 <script>
 	import { useNavigate, useLocation } from "svelte-navigator";
-	import {currentUser, fetchOneUser,logInAttempts} from "../store/generalStore.js"
+	import {currentUser, fetchOneUser,logInAttempts,sessionKey} from "../store/generalStore.js"
 	
 
 
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	let username = "LolFixed";
-	let password = "Iaintgotnomoney@lol.dk";
+	let email = "min@email.dk";
+	let password = "lol";
 
 	async function handleSubmit() {
-		const givenInfo= {name: username, email: password}
+		const givenInfo= {email: email, password: password}
 		const fetchedUserData = await fetchOneUser(givenInfo)
 		//console.log("fetched user data in Login.svelte: ",fetchedUserData);
 		if (fetchedUserData == null) {
@@ -24,7 +24,7 @@
 		else {
 			$currentUser = fetchedUserData.data
 			const from = ($location.state && $location.state.from) || "/";
-			//console.log("from:", from);
+			$sessionKey = fetchedUserData.sessionKey
 			$logInAttempts = 0;
 			navigate("/profile", { replace: true });
 		}
@@ -34,10 +34,10 @@
 <h3>Login</h3>
 <form on:submit|preventDefault={handleSubmit}>
 	<input
-		bind:value={username}
+		bind:value={email}
 		type="text"
-		name="username"
-		placeholder="Username"
+		name="email"
+		placeholder="email"
 	/>
 	<br />
 	<input

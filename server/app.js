@@ -29,7 +29,7 @@ const authLimiter = rateLimit({ // Create an instance of IP rate-limiting middle
 
 app.use(baseLimiter); //the base limiter should be ABOVE our auth limiter.
 //REMEMBER TO ALWAYS HAVE THE BASE LIMITER ON THE TOP.
-app.use("test/auth/*", authLimiter);
+app.use("customer/auth/*", authLimiter);
 
 // #################
 //  SESSION ON BACKEND SERVERS

@@ -6,6 +6,8 @@
 	import About from "./pages/About.svelte"
 	import Profile from "./pages/Profile.svelte";
 	import Login from "./pages/Login.svelte";
+	import PrivateRoute from "./pages/PrivateRoute.svelte";
+	import PrivateRouteGuard from "./pages/PrivateRouteGuard.svelte"
 	import {currentUser} from "./store/generalStore.js"
 
 </script>
@@ -37,9 +39,9 @@
 				</Route>
 				<!--Route path=":id" component={BlogPost} /-->
 			</Route>
-			<Route path="profile">
+			<PrivateRoute path="profile">
 				<Profile/>
-			</Route>
+			</PrivateRoute>
 			<Route path="login">
 				<Login/>
 			</Route>

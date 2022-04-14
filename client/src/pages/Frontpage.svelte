@@ -1,6 +1,6 @@
 <script>
 	import {onMount} from "svelte"
-    import {allUsers, currentUser, users} from "../store/generalStore.js"
+    import {allUsers, currentUser, users,sessionKey} from "../store/generalStore.js"
 let username;
 let password;
 
@@ -17,6 +17,7 @@ onMount( async () => {
 <h3>Frontpage</h3>
 <p>random user: {$users}</p>
 <p>current user: {$currentUser}</p>
+<p>sessionKey: {$sessionKey}</p>
 </main>
 
 <style>

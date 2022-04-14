@@ -1,18 +1,20 @@
 <script>
+export let id;
 export let name;
 export let price;
 export let size_s;
 export let size_m;
 export let size_l;
+export let pictureUrl;
 
 </script>
 
-<div id="inner">
-    <p class="test">{name}</p>
-    <p>{price}</p>
-    <p class="test">{size_s}</p>
-    <p>{size_m}</p>
-    <p class="test">{size_l}</p>
+<div id="inner" style="background-image: url({pictureUrl}); background-size: cover">
+    <p>name: {name}</p>
+    <p>price: {price}</p>
+    <p>amount of small: {size_s}</p>
+    <p>amount of medium:{size_m}</p>
+    <p>amount of large: {size_l}</p>
 </div>
 
 <style>
@@ -24,14 +26,13 @@ export let size_l;
         margin: 0.1em;
         float: left;
         text-align: center;
-       
+        
+
     }
     p {
         padding: 1px;
         height: 20%;
         width: 15%;
     }
-    p.test{
-       background-color: blueviolet; 
-    }
+    
 </style>

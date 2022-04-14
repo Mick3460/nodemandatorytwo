@@ -1,11 +1,12 @@
 <script>
     //lav fetch som henter brugerens info
     import { useNavigate } from "svelte-navigator";
-    import {currentUser,logOutOfSession} from "../store/generalStore.js"
+    import {currentUser,logOutOfSession,sessionKey} from "../store/generalStore.js"
     const navigate = useNavigate();
 
     function handleLogout() {
 		$currentUser = null;
+        $sessionKey = null;
         logOutOfSession();
         navigate("/", { replace: true });
 	}

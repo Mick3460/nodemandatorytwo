@@ -5,7 +5,7 @@ dotenv.config();
  */
 
 import {selectAllFunction, getUserById,insertIntoMySql, deleteCustomer, 
-    updateCustomer, getUserByNameAndEmail} from "../database/SQLqueries.js";
+    updateCustomer, getUserByEmailAndPassword} from "../database/SQLqueries.js";
 
 
 const customerRouter = Router();
@@ -78,13 +78,14 @@ customerRouter.use(baseLimiter); //the base limiter should be ABOVE our auth lim
 //POST /GET SPECIFIC CUSTOMER, name and email/password? POST for security... authLimiter,
 customerRouter.post("/customer/auth/login", authLimiter, async (req,res) => {
     const newCustomer = req.body;
-    const selectedCustomer = await getUserByNameAndEmail(newCustomer);
-    if (selectedCustomer[0]){
+    const selectedCustomer = await getUserByEmailAndPassword(newCustomer);
+    if (selectedCustomer){
         //console.log("selected:" ,selectedCustomer[0]);
         req.session.loggedInUser = selectedCustomer[0];
+        console.log("CUSTOMER ROUTER PRINTS, AUTH LOGIN");
         console.log("sessionID : ",req.sessionID);
         console.log("loggedInUser session:",req.session.loggedInUser);
-        res.send({data: selectedCustomer[0]}) //sending the object instead of array
+        res.send({data: selectedCustomer[0], sessionKey: req.sessionID}) //sending the object instead of array
     } else {
         //console.log("INGEN CUSTOMER");
         res.status(204).send(null)

@@ -16,17 +16,20 @@ onMount( async () => {
         console.log("all items in store: ", $allItemsInStore);
 	});
 
+
 </script>
 
 <div id="outer">
     <h4>This is the items page</h4>
     <div id="itemsBox">
-    {#each testOfItems as item (item.name)} <!-- make better key lol-->
-    <Item name=item.name 
-    price=item.price 
-    size_s=item.size_s 
-    size_m=item.size_m 
-    size_l=item.size_l />
+    {#each testOfItems as item (item.id)} <!-- make better key lol-->
+    <Item id={item.id}
+    name={item.name} 
+    price={item.price }
+    size_s={item.size_s} 
+    size_m={item.size_m }
+    size_l={item.size_l}
+    pictureUrl={item.pictureUrl}/>
     {/each}
     </div>
 </div>
