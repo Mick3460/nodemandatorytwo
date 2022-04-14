@@ -26,8 +26,7 @@ customerRouter.get("/customer/", async (req,res) => {
     }
     
 })
-
-
+//..
 //GET SPECIFIC CUSTOMER by ID
 customerRouter.get("/customer/:customerId", async (req,res) => {
     const id = req.params.customerId
