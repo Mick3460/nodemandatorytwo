@@ -6,7 +6,12 @@ export let size_s;
 export let size_m;
 export let size_l;
 export let pictureUrl;
+import { useNavigate, useLocation } from "svelte-navigator";
 
+const navigate = useNavigate();
+function handleSubmit() {
+    navigate("/items/"+ id,true)
+}
 </script>
 
 <div id="inner" style="background-image: url({pictureUrl}); background-size: cover">
@@ -15,6 +20,7 @@ export let pictureUrl;
     <p>amount of small: {size_s}</p>
     <p>amount of medium:{size_m}</p>
     <p>amount of large: {size_l}</p>
+    <button on:click|preventDefault={handleSubmit}>Se mig {id} </button>
 </div>
 
 <style>
@@ -34,5 +40,5 @@ export let pictureUrl;
         height: 20%;
         width: 15%;
     }
-    
+
 </style>

@@ -7,7 +7,10 @@ export async function allItems() {
     return itemsData
 }
 
+export const allItemsInStore = writable([]);
 
-export const allItemsInStore = writable("all items in here");
+export const cartList = writable([])
+
+
 
 

@@ -11,7 +11,7 @@ import {selectAllFunction, getUserById,insertIntoMySql, deleteCustomer,
 const customerRouter = Router();
 
 customerRouter.get("/customer/logout/",async (req,res) => {
-    req.session.destroy( () => console.log("session"))
+    req.session.destroy( () => console.log("session DESTROYED"))
 })
 
 //Gets all customers, sends the first user

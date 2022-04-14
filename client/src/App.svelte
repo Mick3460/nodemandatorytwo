@@ -1,20 +1,20 @@
 <script>
-	import {onMount} from "svelte"
 	import { Router, Link, Route } from "svelte-navigator";
 	import Frontpage from "./pages/Frontpage.svelte";
-	import Items from "./pages/ItemPage.svelte"
+	import ItemPage from "./pages/ItemPage.svelte"
 	import About from "./pages/About.svelte"
 	import Profile from "./pages/Profile.svelte";
 	import Login from "./pages/Login.svelte";
 	import PrivateRoute from "./pages/PrivateRoute.svelte";
-	import PrivateRouteGuard from "./pages/PrivateRouteGuard.svelte"
 	import {currentUser} from "./store/generalStore.js"
+	import SpecificItem from "./pages/SpecificItem.svelte";
+	import {allItemsInStore} from "./store/itemsStore.js"
+
 
 </script>
 
 
 <main>
-	<h1>.</h1>
 	<Router>
 		<nav>
 			<Link to="/">Home</Link>
@@ -28,16 +28,18 @@
 			{/if}
 
 		</nav>
-		<div>
+		<div style="height: 70%">
 			<Route path="/">
 				<Frontpage />
 			</Route>
-			<Route path="about" component={About} />
+			<Route path="about" component={About}/>
 			<Route path="items/*">
-				<Route path="/">
-					<Items />
+				<Route path="/" >
+					<ItemPage></ItemPage>
 				</Route>
-				<!--Route path=":id" component={BlogPost} /-->
+				<Route path=":id" let:params>
+						<SpecificItem id={params.id}></SpecificItem>
+				</Route>
 			</Route>
 			<PrivateRoute path="profile">
 				<Profile/>
@@ -45,6 +47,7 @@
 			<Route path="login">
 				<Login/>
 			</Route>
+			
 		</div>
 	</Router>
 	
@@ -67,12 +70,6 @@ main {
 	} 
 	footer {
 		background-color: grey;
-	}
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	@media (min-width: 640px) {
