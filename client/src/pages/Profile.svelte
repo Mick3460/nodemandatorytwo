@@ -24,7 +24,7 @@
     <h3>Profile stuff</h3>
     <p>{$currentUser?.name}</p>
     <p>{$currentUser?.email}</p>
-    <button on:click|preventDefault={handleEditButton}>Edit profile</button>
+    
     <button on:click|preventDefault={handleLogout}>Log out</button>
     <Modal>
         <Content customer={$currentUser} />

@@ -1,14 +1,22 @@
 <script>
     export let customer = "";
     export let message = 'Hi';
+    import { useNavigate } from "svelte-navigator";
+    import {fetchOneUser,updateCustomer,currentUser,sessionKey} from "../store/generalStore.js"
+    
 
+    const navigate = useNavigate();
     let name=customer.name;
     let email=customer.email
     let password=""
-
-    async function handleSave (){
-        const givenInfo= {email, password}
+    const savedEmail = $currentUser.email;
+    
+    async function handleSave (){   
+        const givenInfo= {name, email: savedEmail, password}
+        console.log("given info:",givenInfo);
 		const fetchedUserData = await fetchOneUser(givenInfo)
+        const fetchedUser = fetchedUserData.data
+        const fetchedKey = fetchedUserData.sessionKey
         if (fetchedUserData == null) {
 			//NOT CORRECT LOGIN
 		} else if (fetchedUserData == 429){
@@ -16,10 +24,16 @@
 			navigate("/", { replace: true });
 		}
 		else {
-            // TODO: HER SKAL DU BRUGE DIN UPDATE FUNKTION I CUSTOMER ROUTER
-            //const saveUser = gør noget her, din hjerne er stegt.
-			const from = ($location.state && $location.state.from) || "/";
+            // TODO: currentUser update og sessionKey check
+
+            if($sessionKey == fetchedKey){
+            const updatedCustomer = {id: fetchedUser.id, name:givenInfo.name ,email: email, password: givenInfo.password,sessionKey: fetchedKey } 
+            console.log("updatedCustomer: ",updatedCustomer);
+            const savedUser = await updateCustomer(updatedCustomer) 
+            $currentUser = updatedCustomer
+			//const from = ($location.state && $location.state.from) || "/";
 			navigate("/profile", { replace: true });
+            }
 		}
     }
 
@@ -39,6 +53,6 @@
   <input bind:value={password}>
 
   <button on:click|preventDefault={handleSave}>Save changes</button>
-  <button on:click|preventDefault={handleSave}>Cancel</button>
+  
 
 

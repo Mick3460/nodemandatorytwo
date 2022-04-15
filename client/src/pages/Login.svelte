@@ -7,15 +7,14 @@
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	let email = "min@email.dk";
+	let email = "mail@lol.dk";
 	let password = "lol";
 
 	async function handleSubmit() {
-		const givenInfo= {email: email, password: password}
+		const givenInfo= {email, password}
 		const fetchedUserData = await fetchOneUser(givenInfo)
 		//console.log("fetched user data in Login.svelte: ",fetchedUserData);
 		if (fetchedUserData == null) {
-			//console.log("Error was returned in Login, dont do nothing. User not found");
 			$logInAttempts +=1
 		} else if (fetchedUserData == 429){
 			console.log("Too many tries, come back later");

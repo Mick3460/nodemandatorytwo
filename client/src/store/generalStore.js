@@ -25,8 +25,22 @@ export async function fetchOneUser(body) {
     } else if(response.status ==429) {
         return 429;
     } 
-    else {
-        //console.log("Not cool, throw error?");
+    else if (response.status == 404){
+        console.log("Not cool, throw error?");
+        return null;
+    }
+}
+
+export async function updateCustomer(body) {
+    const options = makeOptions("PUT",body)
+    console.log("GENERALSTORE: BODY ID: ", body);
+    const response = await fetch(url + "/customer/"+body.id, options);
+    if(response.status == 200){
+        const customerData = await response.json()
+        return customerData;
+    } else if (response.status == 429){
+        return 429;
+    } else {
         return null;
     }
 }

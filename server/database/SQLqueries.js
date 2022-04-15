@@ -20,7 +20,7 @@ export const getUserByEmailAndPassword =  async (customerObj) =>  {
     //check if email is in DB
     const checkUser = await getUserByEmail(customerObj.email);
     console.log("log check user:", checkUser);
-    if (checkUser[0] !== null){
+    if (checkUser[0] != null){ //!== doesnt work?
         const isSame = await bcrypt.compare(customerObj.password, checkUser[0].password )
         if(isSame) {
             console.log(customerObj);

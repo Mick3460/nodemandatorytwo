@@ -61,6 +61,7 @@ const baseLimiter = rateLimit({ // Create an instance of IP rate-limiting middle
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
+
 const authLimiter = rateLimit({ // Create an instance of IP rate-limiting middleware for Express.
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	max: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -75,8 +76,10 @@ customerRouter.use(baseLimiter); //the base limiter should be ABOVE our auth lim
 
 //LOG IN 
 //POST /GET SPECIFIC CUSTOMER, name and email/password? POST for security... authLimiter,
-customerRouter.post("/customer/auth/login", authLimiter, async (req,res) => {
+//TODO: APPLY authLimiter
+customerRouter.post("/customer/auth/login", authLimiter,  async (req,res) => {
     const newCustomer = req.body;
+    console.log("LOG IN ROUTER",newCustomer);
     const selectedCustomer = await getUserByEmailAndPassword(newCustomer);
     if (selectedCustomer){
         //console.log("selected:" ,selectedCustomer[0]);
@@ -91,18 +94,22 @@ customerRouter.post("/customer/auth/login", authLimiter, async (req,res) => {
     }
 })
 
+//TODO: ADD AUTH LIMITER
 //UPDATE CUSTOMER
-customerRouter.put("/customer/:customerId", async (req,res) => {
+customerRouter.put("/customer/:customerId", authLimiter, async (req,res) => {
     const idToUpdate = Number(req.params.customerId);
-    const newCustomerInfo = req.body
-    const selectedCustomer = await getUserById(idToUpdate)
+    const keySent = req.body.sessionKey
+    const newCustomerInfo = {id: idToUpdate, email: req.body.email, name: req.body.name, password: req.body.password}
     
-    console.log("id to update: ",idToUpdate);
-    console.log("selected customer: ",selectedCustomer);
-
-    if (selectedCustomer.id !== null){
-        const updatedCustomer = {...selectedCustomer[0], ...newCustomerInfo, id: idToUpdate}
-        updateCustomer(updatedCustomer)
+    //const selectedCustomer = await getUserById(idToUpdate)  dont need actually?
+    
+    console.log("ROUTER: customer id from req: ", idToUpdate);
+    console.log("ROUTER: key sent: ",keySent);
+    console.log("ROUTER: newInfoToSave:",newCustomerInfo);
+    console.log("key on node:",req.sessionID);
+    if (req.sessionID == keySent){
+        console.log("ROUTER UPDATE, keys match");
+        const updatedCustomer = updateCustomer(newCustomerInfo)
         res.send({data: updatedCustomer})
     } else {
         res.status(404).send({data: "Id not found"})
