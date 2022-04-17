@@ -8,9 +8,11 @@
 	import PrivateRoute from "./pages/PrivateRoute.svelte";
 	import {currentUser} from "./store/generalStore.js"
 	import SpecificItem from "./pages/SpecificItem.svelte";
-	import {allItemsInStore} from "./store/itemsStore.js"
+	import {allItemsInStore, cartList} from "./store/itemsStore.js"
+import CartList from "./pages/CartList.svelte";
+console.log($cartList);
 
-
+//TODO: make a function that check if the currentUser is null or not
 </script>
 
 
@@ -25,6 +27,9 @@
 			{/if}
 			{#if $currentUser == null}
 			<Link to="login">Log in</Link>
+			{/if}
+			{#if $cartList != null}
+			<Link to ="cartList">Your cart</Link>
 			{/if}
 
 		</nav>
@@ -46,6 +51,9 @@
 			</PrivateRoute>
 			<Route path="login">
 				<Login/>
+			</Route>
+			<Route path="cartList" primary={false}>
+				<CartList></CartList>
 			</Route>
 			
 		</div>

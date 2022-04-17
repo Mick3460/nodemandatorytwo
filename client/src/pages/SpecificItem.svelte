@@ -16,6 +16,9 @@
     //items har disse keys: id, name, price, size_s,size_m,size_l,pictureUrl
 
     function handleSubmit() {
+        if($cartList == null){
+            $cartList = []
+        }
         $cartList.push(selectedItem)
         console.log($cartList);
     }
@@ -45,7 +48,10 @@
     <div id="rightBox">
         <h2>Something else here?</h2>
     </div>
+    <div>
     <button on:click="{() => navigate(-1)}">Back to items page</button>
+    <button on:click="{() => navigate("/cartList")}">Go to cart list</button>
+    </div>
 </div>
 
 <style>

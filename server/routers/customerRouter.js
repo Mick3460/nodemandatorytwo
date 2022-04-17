@@ -1,12 +1,13 @@
 import { Router } from "express";
-/**
- * import dotenv from "dotenv"
+
+import dotenv from "dotenv"
 dotenv.config();
- */
+ 
 
 import {selectAllFunction, getUserById,insertIntoMySql, deleteCustomer, 
-    updateCustomer, getUserByEmailAndPassword} from "../database/SQLqueries.js";
-
+    updateCustomer, getUserByEmailAndPassword, getUserByEmail} from "../database/SQLqueries.js";
+    
+import { sendEmail } from "../nodemailer.js";
 
 const customerRouter = Router();
 
@@ -17,12 +18,11 @@ customerRouter.get("/customer/logout/",async (req,res) => {
 //Gets all customers, sends the first user
 customerRouter.get("/customer/", async (req,res) => {
     const selectAll = await selectAllFunction();
-    console.log(req.session.loggedInUser);
     if (selectAll){
         res.send( { data: selectAll})
     }
     else {
-        res.send( { data: "yayeet"} )
+        res.send( {} )
     }
     
 })
@@ -31,24 +31,34 @@ customerRouter.get("/customer/", async (req,res) => {
 customerRouter.get("/customer/:customerId", async (req,res) => {
     const id = req.params.customerId
     const selectedCustomer = await getUserById(id);
-    console.log("Selected Customer: " , selectedCustomer);
-
     if (selectedCustomer){
         res.send({data: selectedCustomer[0]});
     }
     else {
-        res.send( { data: "yayeet"} )
+        res.send( {} )
     }
 })
 
-
-//POST customers
+//Fetch with Email
+customerRouter.get("/customer/email/:email", async (req,res) => {
+    const customer = await getUserByEmail(req.params.email);
+    if (customer.length === 1){ //match in db
+        res.status(200).send({data: "Email used"})
+    } else {
+        res.status(204).send({data: undefined})
+    }
+})
+  
+//POST customers INSERT INTO + send email
 customerRouter.post("/customer", async (req,res) => {
     const newCustomer = req.body;
     const resultSetHeader = await insertIntoMySql(newCustomer);
-    if (resultSetHeader.affectedRows>0){
+
+    if (resultSetHeader.rows.affectedRows>0){
         newCustomer.id =resultSetHeader.insertId;
-        res.send({data:newCustomer})
+        newCustomer.signUpPassword = resultSetHeader.hashedPassword
+        sendEmail(newCustomer.signUpEmail)
+        res.status(200).send({data:newCustomer, sessionID: req.sessionID})
     } else {
         res.status(204).send({})
     }
@@ -71,44 +81,29 @@ const authLimiter = rateLimit({ // Create an instance of IP rate-limiting middle
 
 customerRouter.use(baseLimiter); //the base limiter should be ABOVE our auth limiter.
 //REMEMBER TO ALWAYS HAVE THE BASE LIMITER ON THE TOP.
+
 //customerRouter.use("customer/auth/login", authLimiter); //VIRKER IKKE?????
 
-
-//LOG IN 
+//LOG IN AUTH
 //POST /GET SPECIFIC CUSTOMER, name and email/password? POST for security... authLimiter,
-//TODO: APPLY authLimiter
 customerRouter.post("/customer/auth/login", authLimiter,  async (req,res) => {
     const newCustomer = req.body;
-    console.log("LOG IN ROUTER",newCustomer);
     const selectedCustomer = await getUserByEmailAndPassword(newCustomer);
     if (selectedCustomer){
-        //console.log("selected:" ,selectedCustomer[0]);
         req.session.loggedInUser = selectedCustomer[0];
-        console.log("CUSTOMER ROUTER PRINTS, AUTH LOGIN");
-        console.log("sessionID : ",req.sessionID);
-        console.log("loggedInUser session:",req.session.loggedInUser);
         res.send({data: selectedCustomer[0], sessionKey: req.sessionID}) //sending the object instead of array
     } else {
-        //console.log("INGEN CUSTOMER");
         res.status(204).send(null)
     }
 })
 
-//TODO: ADD AUTH LIMITER
 //UPDATE CUSTOMER
 customerRouter.put("/customer/:customerId", authLimiter, async (req,res) => {
     const idToUpdate = Number(req.params.customerId);
     const keySent = req.body.sessionKey
     const newCustomerInfo = {id: idToUpdate, email: req.body.email, name: req.body.name, password: req.body.password}
-    
-    //const selectedCustomer = await getUserById(idToUpdate)  dont need actually?
-    
-    console.log("ROUTER: customer id from req: ", idToUpdate);
-    console.log("ROUTER: key sent: ",keySent);
-    console.log("ROUTER: newInfoToSave:",newCustomerInfo);
-    console.log("key on node:",req.sessionID);
+
     if (req.sessionID == keySent){
-        console.log("ROUTER UPDATE, keys match");
         const updatedCustomer = updateCustomer(newCustomerInfo)
         res.send({data: updatedCustomer})
     } else {
@@ -127,7 +122,6 @@ customerRouter.delete("/customer/:customerId", async (req,res) => {
     }
 
 })
-
 
 
 export default customerRouter;

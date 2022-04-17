@@ -1,6 +1,6 @@
 <script>
 	import { useNavigate, useLocation } from "svelte-navigator";
-	import {currentUser, fetchOneUser,logInAttempts,sessionKey} from "../store/generalStore.js"
+	import {currentUser, fetchOneUser,fetchOneUserByEmail,insertCustomer,logInAttempts,sessionKey} from "../store/generalStore.js"
 	
 
 
@@ -9,6 +9,9 @@
 
 	let email = "mail@lol.dk";
 	let password = "lol";
+	let signUpName = "";
+	let signUpEmail ="";
+	let signUpPassword ="";
 
 	async function handleSubmit() {
 		const givenInfo= {email, password}
@@ -28,8 +31,26 @@
 			navigate("/profile", { replace: true });
 		}
 	}
-</script>
 
+	async function handleSignupSubmit() {
+		const givenInfo = {signUpName, signUpEmail, signUpPassword};
+		const response = await fetchOneUserByEmail(givenInfo.signUpEmail);
+		if (response === 0){
+			console.log("Email is being used");
+		} else if (response === 1) {
+			
+			const makeCustomer = await insertCustomer(givenInfo);
+			const newCustomer = {name: makeCustomer.data.signUpName, email: makeCustomer.data.signUpEmail, password: makeCustomer.data.signUpPassword}
+			$currentUser = newCustomer
+			$sessionKey = makeCustomer.sessionID
+			
+			navigate("/profile", { replace: true });
+		}
+
+	}
+</script>
+<div>
+	
 <h3>Login</h3>
 <form on:submit|preventDefault={handleSubmit}>
 	<input
@@ -47,4 +68,35 @@
 	/>
 	<br />
 	<button type="submit">Login</button>
+
 </form>
+</div>
+
+<div>
+<h3>Signup</h3>
+<form on:submit|preventDefault={handleSignupSubmit}>
+	<input
+		bind:value={signUpName}
+		type="text"
+		name="signUpName"
+		placeholder="Name"
+	/>
+	<br />
+	<input
+		bind:value={signUpEmail}
+		type="text"
+		name="signUpEmail"
+		placeholder="email"
+	/>
+	<br />
+	<input
+		bind:value={signUpPassword}
+		type="password"
+		name="signUpPassword"
+		placeholder="Password"
+	/>
+	<br />
+	<button type="submit">Login</button>
+
+</form>
+</div>

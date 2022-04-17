@@ -14,10 +14,6 @@
         navigate("/", { replace: true });
 	}
 
-    function handleEditButton(){
-
-    }
-
 </script>
 
 <div>

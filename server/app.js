@@ -37,9 +37,10 @@ app.use("customer/auth/*", authLimiter);
 import session from 'express-session';
 app.use(session({
     secret: 'keyboardCat', //process.env.SESSION_SECRET
-    resave: false, //Forces the session to be saved back to the session store, even if the session was never modified during the request. 
+    resave: true, //Forces the session to be saved back to the session store, even if the session was never modified during the request. 
     saveUninitialized: true, //Forces a session that is "uninitialized" to be saved to the store. A session is uninitialized when it is new but not modified. 
-    cookie: { secure: false } //secure true only works if the server is https. This aint it chief.
+    cookie: { secure: false, maxAge: 1000000000 } //secure true only works if the server is https. This aint it chief.
+	
   }))
 
 

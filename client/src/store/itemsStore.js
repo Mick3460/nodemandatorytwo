@@ -7,9 +7,19 @@ export async function allItems() {
     return itemsData
 }
 
+export async function sendEmailFetch() {
+    const response = await fetch(url + "/items/buy"); //$baseURL+
+    if (response.status == 204) {
+        return 0; //ERROR
+    } 
+    else if (response.status == 200){
+        return 1; //SUCCESS
+    }
+}
+
 export const allItemsInStore = writable([]);
 
-export const cartList = writable([])
+export const cartList = writable(null)
 
 
 

@@ -4,6 +4,7 @@ import { readable, writable } from "svelte/store";
 
 export const baseURL = readable("http://localhost:3000")
 const url = "http://localhost:3000"
+
 export async function allUsers() {
     const response = await fetch(url + "/customer/"); //$baseURL+
     const customerData = await response.json();
@@ -14,13 +15,23 @@ export async function logOutOfSession() {
     const response = await fetch(url + "/customer/logout");
 }
 
+export async function fetchOneUserByEmail(email) {
+    const response = await fetch(url + "/customer/email/"+email); //$baseURL+
+    if (response.status == 204) {
+        console.log("Email is free to be used");
+        return 1;
+    } 
+    else if (response.status == 200){
+        console.log("Email already used");
+        return 0;
+    }
+}
+
 export async function fetchOneUser(body) {
     const options = makeOptions("POST",body)
     const response = await fetch(url + "/customer/auth/login",options); //$baseURL+
-    //console.log("response: ",response);
     if (response.status == 200) {
         const customerData = await response.json();
-        //console.log("customer data in fetchOneUserNEW() ", customerData);
         return customerData
     } else if(response.status ==429) {
         return 429;
@@ -31,9 +42,19 @@ export async function fetchOneUser(body) {
     }
 }
 
+export async function insertCustomer(body) {
+    const options = makeOptions("POST",body)
+    const response = await fetch(url+"/customer/",options);
+    if (response.ok) {
+        const responseData = await response.json()
+        return responseData
+    } else {
+        console.log("Customer wasnt created");
+    }
+}
+
 export async function updateCustomer(body) {
     const options = makeOptions("PUT",body)
-    console.log("GENERALSTORE: BODY ID: ", body);
     const response = await fetch(url + "/customer/"+body.id, options);
     if(response.status == 200){
         const customerData = await response.json()
@@ -44,6 +65,12 @@ export async function updateCustomer(body) {
         return null;
     }
 }
+
+
+
+
+
+
 
 function makeOptions(method, body) {
     const opts = {

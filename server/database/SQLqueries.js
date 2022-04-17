@@ -33,8 +33,12 @@ export const getUserByEmailAndPassword =  async (customerObj) =>  {
 }
 
 export const insertIntoMySql = async (customerObj) => {
-    const [rows, fields] = await db.execute(`INSERT INTO customers (name,email) VALUES (?,?) ;`,[customerObj.name, customerObj.email]);
-    return rows;
+    console.log("customerObj",customerObj);
+    const hashedPassword = await bcrypt.hash(customerObj.signUpPassword,saltRounds)
+    console.log(hashedPassword);
+    const [rows, fields] = await db.execute(`INSERT INTO customers (name,email,password) VALUES (?,?,?) ;`,[customerObj.signUpName, customerObj.signUpEmail,hashedPassword]);
+    const returnObj = {rows,hashedPassword}
+    return returnObj;
 }
 
 export const updateCustomer = async (customerObj) => {

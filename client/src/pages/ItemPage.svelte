@@ -4,10 +4,7 @@ import {onMount} from "svelte"
 import Item from "../components/Item.svelte"
 import { Router, Link, Route } from "svelte-navigator";
 
-/*
-$allItemsInStore = [{name:"pantsOne", price:1200, size_s:10, size_m:9, size_l:3},
-{name:"pantsTwo", price:100, size_s:14, size_m:3, size_l:1}]
-*/
+
 let testOfItems = $allItemsInStore
 onMount( async () => {
         const items = await allItems()
