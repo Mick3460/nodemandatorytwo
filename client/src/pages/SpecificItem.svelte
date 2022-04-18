@@ -29,7 +29,7 @@
 </script>
 
 <div style="height: 70vh; display:block">
-    <h1>LOL SpecificItem</h1>
+    
     <div id="itemBox" style="background-image: url({selectedItem.pictureUrl}); background-size: cover">
         <div id="innerBox">
         <p>Item name:

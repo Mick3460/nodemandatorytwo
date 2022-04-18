@@ -41,9 +41,6 @@
 
     //SUBSCRIBE KNAP: https://svelte.dev/tutorial/checkbox-inputs
   </script>
-  
-  <p>🎉 {message} 🍾</p>
-
   <h3>Name</h3>
   <input type=text bind:value={name}>
   <h3>Email</h3>

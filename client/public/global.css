@@ -13,16 +13,35 @@ body {
 }
 
 a {
-	color: rgb(0,100,200);
+	color: rgb(0, 87, 200);
 	text-decoration: none;
+        color: #8f8f8f;
+        font-size: 24px;
+        font-weight: 400;
+        transition: all 0.5s ease-in-out;
+        position: relative;
+        text-transform: uppercase;
 }
+a::before {
+	content: attr(data-item);
+	transition: 0.5s;
+	color: #8254ff;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 0;
+	overflow: hidden;
+  }
 
 a:hover {
-	text-decoration: underline;
+	width: 100%;
+            transition: all 0.5s ease-in-out;
 }
 
 a:visited {
-	color: rgb(0,80,160);
+	color: rgb(0, 160, 72);
 }
 
 label {

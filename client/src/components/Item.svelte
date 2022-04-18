@@ -20,7 +20,7 @@ function handleSubmit() {
     <p>amount of small: {size_s}</p>
     <p>amount of medium:{size_m}</p>
     <p>amount of large: {size_l}</p>
-    <button class="btn btn-success"on:click|preventDefault={handleSubmit}>Se mig {id} </button>
+    <button class="btn btn-success"on:click|preventDefault={handleSubmit}>Inspect</button>
 </div>
 
 <style>

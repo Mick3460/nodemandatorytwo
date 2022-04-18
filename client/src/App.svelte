@@ -14,25 +14,27 @@ console.log($cartList);
 import { SvelteToast } from '@zerodevx/svelte-toast'
 //TODO: make a function that check if the currentUser is null or not
 </script>
+
 <SvelteToast/>
 <main>
 	<Router>
 		<nav>
-			<Link to="/">Home</Link>
-			<Link to="about">About</Link>
-			<Link to="items">Items</Link>
+			<ul>
+			<li><Link to="/" class="aTest">Home</Link></li>
+			<li><Link to="about">About</Link></li>
+			<li><Link to="items">Items</Link></li>
 			{#if $currentUser !== null}
-			<Link to="profile">Profile</Link>
+			<li><Link to="profile">Profile</Link></li>
 			{/if}
 			{#if $currentUser == null}
-			<Link to="login">Log in</Link>
+			<li><Link to="login">Log in</Link></li>
 			{/if}
 			{#if $cartList != null}
-			<Link to ="cartList">Your cart</Link>
+			<li><Link to ="cartList">Your cart</Link></li>
 			{/if}
-
+			</ul>
 		</nav>
-		<div style="height: 70%">
+		<div>
 			<Route path="/">
 				<Frontpage />
 			</Route>
@@ -52,7 +54,7 @@ import { SvelteToast } from '@zerodevx/svelte-toast'
 				<Login/>
 			</Route>
 			<Route path="cartList" primary={false}>
-				<CartList></CartList>
+				<CartList/>
 			</Route>
 			
 		</div>
@@ -75,6 +77,16 @@ main {
 		margin: 0 auto;
 		min-height: calc(100vh - 4em); 
 	} 
+	
+ul {
+	list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+li{
+	margin: 30px
+}
 	footer {
 		background-color: grey;
 	}

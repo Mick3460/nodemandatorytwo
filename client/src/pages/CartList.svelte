@@ -26,9 +26,7 @@
         },4000)
     }
    
-    function test() {
-        toast.push('Hello world!')
-    }
+
 </script>
 
 
@@ -40,7 +38,6 @@
 {:else}
     <h3>Log in to buy!</h3>
 {/if}
-<button on:click={test}>EMIT TOAST</button>
 </div>
 
 <style>

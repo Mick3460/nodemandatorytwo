@@ -18,7 +18,7 @@ onMount( async () => {
 </script>
 
 <div id="outer">
-    <h4>This is the items page</h4>
+    <h4>These are our amazing pieces of clothing</h4>
     <div id="itemsBox">
     {#each testOfItems as item (item.id)} <!-- make better key lol-->
     <Item id={item.id}
