@@ -1,6 +1,5 @@
 <script>
     export let customer = "";
-    export let message = 'Hi';
     import { useNavigate } from "svelte-navigator";
     import {fetchOneUser,updateCustomer,currentUser,sessionKey} from "../store/generalStore.js"
     

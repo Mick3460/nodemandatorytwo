@@ -29,11 +29,11 @@ const authLimiter = rateLimit({ // Create an instance of IP rate-limiting middle
 
 app.use(baseLimiter); //the base limiter should be ABOVE our auth limiter.
 //REMEMBER TO ALWAYS HAVE THE BASE LIMITER ON THE TOP.
-app.use("customer/auth/*", authLimiter);
+app.use("customer/auth/*", authLimiter); //not working.
 
 // #################
 //  SESSION ON BACKEND SERVERS
-// ################# https://www.npmjs.com/package/express-session for explanation about resave and
+// ################# 
 import session from 'express-session';
 app.use(session({
     secret: 'keyboardCat', //process.env.SESSION_SECRET
