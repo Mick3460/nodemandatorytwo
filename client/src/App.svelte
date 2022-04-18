@@ -11,11 +11,10 @@
 	import {allItemsInStore, cartList} from "./store/itemsStore.js"
 import CartList from "./pages/CartList.svelte";
 console.log($cartList);
-
+import { SvelteToast } from '@zerodevx/svelte-toast'
 //TODO: make a function that check if the currentUser is null or not
 </script>
-
-
+<SvelteToast/>
 <main>
 	<Router>
 		<nav>

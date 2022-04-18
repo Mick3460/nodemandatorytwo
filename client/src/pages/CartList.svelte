@@ -11,16 +11,23 @@
     headers = Object.keys($cartList[0])
     }
     console.log("headers",headers);
-
+    import { toast } from '@zerodevx/svelte-toast'
     function handleBuySubmit(){
         //TODO: Send email with purchase CALL METHOD TO SEND IN ITEMS ROUTE
         const response = sendEmailFetch()
         //use toastr to make a notification that says something neat
         
-        $cartList = null;
         
+        toast.push('Thanks for you purchase! A confirmation email has been sent to you!')
         //bonus: simulate purchase.. (no time lol)
-        navigate("/", { replace: true })
+        setTimeout(() => {
+            navigate("/", { replace: true })
+            $cartList = null;
+        },4000)
+    }
+   
+    function test() {
+        toast.push('Hello world!')
     }
 </script>
 
@@ -33,6 +40,7 @@
 {:else}
     <h3>Log in to buy!</h3>
 {/if}
+<button on:click={test}>EMIT TOAST</button>
 </div>
 
 <style>

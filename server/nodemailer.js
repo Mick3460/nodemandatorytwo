@@ -24,6 +24,7 @@ export function sendEmail(email,subject,text) {
     //mailTransporter.verify()
     mailTransporter.sendMail(mailDetails, function(err, data) {
         if(err) {
+            console.log("MAIL ERROR IN NODEMAILER.JS");
             return 0;
         } else {
             return 1;
