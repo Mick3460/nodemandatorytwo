@@ -13,8 +13,3 @@ const connection = await mysql.createConnection({
 connection.connect(); //tries to connect with the object.
 
 export default connection;
-
-//const [rows, fields] = await connection.execute('SELECT * FROM `table` WHERE `name` = ? AND `age` > ?', ['Morty', 14]);
-
-
-

@@ -12,7 +12,6 @@
     
     async function handleSave (){   
         const givenInfo= {name, email: savedEmail, password}
-        console.log("given info:",givenInfo);
 		const fetchedUserData = await fetchOneUser(givenInfo)
         const fetchedUser = fetchedUserData.data
         const fetchedKey = fetchedUserData.sessionKey
@@ -27,7 +26,6 @@
 
             if($sessionKey == fetchedKey){
             const updatedCustomer = {id: fetchedUser.id, name:givenInfo.name ,email: email, password: givenInfo.password,sessionKey: fetchedKey } 
-            console.log("updatedCustomer: ",updatedCustomer);
             const savedUser = await updateCustomer(updatedCustomer) 
             $currentUser = updatedCustomer
 			//const from = ($location.state && $location.state.from) || "/";

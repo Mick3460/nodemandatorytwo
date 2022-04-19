@@ -16,7 +16,6 @@
 	async function handleSubmit() {
 		const givenInfo= {email, password}
 		const fetchedUserData = await fetchOneUser(givenInfo)
-		//console.log("fetched user data in Login.svelte: ",fetchedUserData);
 		if (fetchedUserData == null) {
 			$logInAttempts +=1
 		} else if (fetchedUserData == 429){

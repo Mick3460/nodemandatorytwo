@@ -7,8 +7,8 @@ let password;
 
 onMount( async () => {
     //TODO: make a function that check if the currentUser is null or not
+    //this onMount is irrelevant.
         const alllUsers = await allUsers()
-        console.log("users: ", alllUsers.data[0]);
         $users = JSON.stringify(alllUsers.data[0])
 	});
 

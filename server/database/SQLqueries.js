@@ -19,13 +19,10 @@ export const getUserByEmailAndPassword =  async (customerObj) =>  {
 
     //check if email is in DB
     const checkUser = await getUserByEmail(customerObj.email);
-    console.log("log check user:", checkUser);
     if (checkUser[0] != null){ //!== doesnt work?
         const isSame = await bcrypt.compare(customerObj.password, checkUser[0].password )
         if(isSame) {
-            console.log(customerObj);
             const [rows, fields] = await db.execute('SELECT * FROM `customers` WHERE `email` = ? AND `password` = ?' ,[customerObj.email, checkUser[0].password])
-            console.log("rows", rows);
             return rows;
         } else return null;
     } else return null;
@@ -33,9 +30,7 @@ export const getUserByEmailAndPassword =  async (customerObj) =>  {
 }
 
 export const insertIntoMySql = async (customerObj) => {
-    console.log("customerObj",customerObj);
     const hashedPassword = await bcrypt.hash(customerObj.signUpPassword,saltRounds)
-    console.log(hashedPassword);
     const [rows, fields] = await db.execute(`INSERT INTO customers (name,email,password) VALUES (?,?,?) ;`,[customerObj.signUpName, customerObj.signUpEmail,hashedPassword]);
     const returnObj = {rows,hashedPassword}
     return returnObj;
@@ -48,11 +43,3 @@ export const deleteCustomer = async (id) => {
     const [rows, fields] = await db.execute(`DELETE FROM customers WHERE id = ?`,[id])
     return rows;
 }
-
-
-/**
- * ######################################################
- * ######################################################
- * ###################################################### 
- */
-

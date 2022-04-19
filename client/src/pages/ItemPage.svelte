@@ -8,10 +8,8 @@ import { Router, Link, Route } from "svelte-navigator";
 let testOfItems = $allItemsInStore
 onMount( async () => {
         const items = await allItems()
-        console.log("items from fetch: ", items.data);
         testOfItems = items.data
         $allItemsInStore= items.data
-        console.log("all items in store: ", $allItemsInStore);
 	});
 
 
