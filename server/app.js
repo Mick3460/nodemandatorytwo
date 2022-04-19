@@ -2,7 +2,8 @@ import express from "express";
 const app = express();
 import dotenv from "dotenv"
 dotenv.config();
-
+import cors from "cors"
+app.use(cors());
 app.use(express.json()); // Forudser at vi får brug for at kunne læse JSON fra vores database, da de kommer tilbage som json objekter.
 
 //part of Node.js core, so no need for an install.
