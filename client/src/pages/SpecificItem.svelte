@@ -20,7 +20,7 @@
             $cartList = []
         }
         $cartList.push(selectedItem)
-        console.log($cartList);
+        $cartList=$cartList
     }
 
     const navigate = useNavigate();

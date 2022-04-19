@@ -30,7 +30,7 @@ import { SvelteToast } from '@zerodevx/svelte-toast'
 			<li><Link to="login">Log in</Link></li>
 			{/if}
 			{#if $cartList != null}
-			<li><Link to ="cartList">Your cart</Link></li>
+			<li><Link to ="cartList">Your cart: ({$cartList.length})</Link></li>
 			{/if}
 			</ul>
 		</nav>
