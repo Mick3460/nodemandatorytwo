@@ -90,8 +90,11 @@ customerRouter.use(baseLimiter); //the base limiter should be ABOVE our auth lim
 customerRouter.post("/customer/auth/login",  async (req,res) => {
     const newCustomer = req.body;
     const selectedCustomer = await getUserByEmailAndPassword(newCustomer);
+    console.log("selected customer, customerROuter",selectedCustomer);
     if (selectedCustomer){
         req.session.loggedInUser = selectedCustomer[0];
+        req.session.loggedIn = true;
+        console.log("req.session.loggedIn =", req.session.loggedIn);
         res.send({data: selectedCustomer[0], sessionKey: req.sessionID}) //sending the object instead of array
     } else {
         res.status(204).send(null)
@@ -101,11 +104,13 @@ customerRouter.post("/customer/auth/login",  async (req,res) => {
 //UPDATE CUSTOMER
 customerRouter.put("/customer/:customerId", authLimiter, async (req,res) => {
     const idToUpdate = Number(req.params.customerId);
-    const keySent = req.body.sessionKey
     const newCustomerInfo = {id: idToUpdate, email: req.body.email, name: req.body.name, password: req.body.password}
+    console.log("req.session.loggedIn UPDATE CUSTOMER =", req.session.loggedIn);
 
-    if (req.sessionID == keySent){
+    if (req.session.loggedIn == true){
+        //TODO:dont actually need updatedCustomer
         const updatedCustomer = updateCustomer(newCustomerInfo)
+        console.log("updated customer, UPDATE CUSTOMER router",updatedCustomer);
         res.send({data: updatedCustomer})
     } else {
         res.status(404).send({data: "Id not found"})

@@ -24,13 +24,14 @@
 		else {
             // TODO: currentUser update og sessionKey check
 
-            if($sessionKey == fetchedKey){
             const updatedCustomer = {id: fetchedUser.id, name:givenInfo.name ,email: email, password: givenInfo.password,sessionKey: fetchedKey } 
-            const savedUser = await updateCustomer(updatedCustomer) 
+            console.log("updated customer:", updatedCustomer);
+            const savedUser = await updateCustomer(updatedCustomer) //TODO:dont actually need to save it.. Fix
             $currentUser = updatedCustomer
+            console.log("current user:",$currentUser );
 			//const from = ($location.state && $location.state.from) || "/";
 			navigate("/profile", { replace: true });
-            }
+            
 		}
     }
 

@@ -20,6 +20,7 @@ export const getUserByEmailAndPassword =  async (customerObj) =>  {
     //check if email is in DB
     const checkUser = await getUserByEmail(customerObj.email);
     if (checkUser[0] != null){ //!== doesnt work?
+        console.log("checkUser in SQLqueries.js",checkUser);
         const isSame = await bcrypt.compare(customerObj.password, checkUser[0].password )
         if(isSame) {
             const [rows, fields] = await db.execute('SELECT * FROM `customers` WHERE `email` = ? AND `password` = ?' ,[customerObj.email, checkUser[0].password])

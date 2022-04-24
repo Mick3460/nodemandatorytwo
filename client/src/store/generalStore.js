@@ -75,6 +75,8 @@ export async function updateCustomer(body) {
 function makeOptions(method, body) {
     const opts = {
         method: method,
+        mode: "cors",
+        credentials: "include", //sender cookie med
         headers: {
             "Content-type": "application/json",
             "Accept": "application/json"
