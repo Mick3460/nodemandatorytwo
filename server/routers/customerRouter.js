@@ -85,8 +85,8 @@ customerRouter.use(baseLimiter); //the base limiter should be ABOVE our auth lim
 //customerRouter.use("customer/auth/login", authLimiter); //VIRKER IKKE?????
 
 //LOG IN AUTH
-//POST /GET SPECIFIC CUSTOMER, name and email/password? POST for security... authLimiter,
-    //TODO: AUTHLIMITER
+//POST /GET SPECIFIC CUSTOMER, name and email/password?
+
 customerRouter.post("/customer/auth/login",  async (req,res) => {
     const newCustomer = req.body;
     const selectedCustomer = await getUserByEmailAndPassword(newCustomer);
@@ -101,7 +101,7 @@ customerRouter.post("/customer/auth/login",  async (req,res) => {
     }
 })
 
-//UPDATE CUSTOMER
+//UPDATE CUSTOMER   sessionkey check here to update information
 customerRouter.put("/customer/:customerId", authLimiter, async (req,res) => {
     const idToUpdate = Number(req.params.customerId);
     const newCustomerInfo = {id: idToUpdate, email: req.body.email, name: req.body.name, password: req.body.password}

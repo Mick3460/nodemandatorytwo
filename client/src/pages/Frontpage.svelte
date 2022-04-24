@@ -7,7 +7,7 @@ let password;
 
 onMount( async () => {
     //TODO: make a function that check if the currentUser is null or not
-    //this onMount is irrelevant.
+    //this onMount is irrelevant. It's just a check to see if there's a DB connection when refreshing the page.
         const alllUsers = await allUsers()
         $users = JSON.stringify(alllUsers.data[0])
 	});
